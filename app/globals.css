@@ -25,3 +25,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+#Login1 {
+  background-image: url("../public/assets/Login1.svg");
+}
