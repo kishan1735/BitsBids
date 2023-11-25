@@ -13,10 +13,10 @@ export interface Users extends mongoose.Document {
   role: string;
   password: string;
   id: string;
-  bitscoins: {
-    current: number;
-    transactionHistory: Array<transaction>;
-  };
+
+  bitscoins: number;
+  transactionHistory: Array<transaction>;
+
   createdAt: Date;
   passwordChangedAt: Date;
   profilePicture: string;
@@ -44,10 +44,10 @@ const userSchema = new mongoose.Schema<Users>({
     select: false,
     minLength: 8,
   },
-  bitscoins: {
-    current: { type: Number, default: 0 },
-    transactionHistory: { type: [transactionSchema], default: [] },
-  },
+
+  bitscoins: { type: Number, default: 0 },
+  transactionHistory: { type: [transactionSchema], default: [] },
+
   createdAt: { type: Date, default: Date.now() },
   passwordChangedAt: { type: Date, default: null },
   profilePicture: { type: String, default: "Default Image Link Goes Here" },

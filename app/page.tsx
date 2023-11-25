@@ -73,7 +73,7 @@ const GeneratedComponent = () => (
         <Link href="/user/profile">Profile&nbsp;</Link>
       </div>
       <div className="ml-[75px] font-sora text-xl min-w-[115px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal  hover:text-yellow-300 hover:scale-105">
-        <Link href="/sell">My Wallet</Link>
+        <Link href="/wallet">My Wallet</Link>
       </div>
       <div className="ml-16 font-sora text-xl min-w-[63px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
         <Link href="/login">Login</Link>

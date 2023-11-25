@@ -7,16 +7,14 @@ type prevBidders = {
   };
 };
 interface Current extends mongoose.Document {
-  product: {
-    description: string;
-    basePrice: number;
-    category: string;
-    picture: string;
-    name: string;
-    duration: Array<object>;
-    seller: Array<Object>;
-    bidders: Array<Object>;
-  };
+  description: string;
+  basePrice: number;
+  category: string | any;
+  picture: string;
+  name: string;
+  duration: Array<object>;
+  seller: Array<Object>;
+  bidders: Array<Object>;
 }
 const durationSchema = new mongoose.Schema({
   startTime: { type: Date, default: Date.now() },

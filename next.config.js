@@ -12,6 +12,8 @@ const nextConfig = {
   },
   env: {
     URL: process.env.URL,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
   },
 };
 

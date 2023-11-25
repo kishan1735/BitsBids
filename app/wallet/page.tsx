@@ -1,4 +1,5 @@
 "use client";
+import getStripe from "@/utils/stripe";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -7,6 +8,8 @@ function Page() {
   const { data: session, status } = useSession();
   const [bitscoins, setBitscoins] = useState<any>();
   const [amount, setAmount] = useState<any>();
+  const [error, setError] = useState("");
+  const [transaction, setTransaction] = useState([]);
   useEffect(
     function () {
       async function getUser() {
@@ -19,7 +22,8 @@ function Page() {
         const data = await res.json();
         console.log(data);
         if (data.status == "success") {
-          setBitscoins(data.user.bitscoins.current);
+          setBitscoins(data.user.bitscoins);
+          setTransaction(data.user.transactionHistory);
         }
       }
       getUser();
@@ -27,13 +31,20 @@ function Page() {
     [session]
   );
   async function handlePay() {
-    const requestBody = { email: session?.user?.email };
+    const requestBody = { email: session?.user?.email, amount };
     const res = await fetch("/api/checkout_session", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(requestBody),
     });
     const data = await res.json();
+    const stripe = await getStripe();
+    const { error }: { error: any } = await stripe!.redirectToCheckout({
+      sessionId: data?.session.id,
+    });
+    if (error) {
+      setError(error);
+    }
   }
   return (
     <>
@@ -74,7 +85,7 @@ function Page() {
                 type="text"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="border-black py-2 border-2 text-center text-xl"
+                className="border-black py-2 border-2 text-center text-xl rounded-xl"
               />
             </div>
             <button
@@ -96,7 +107,25 @@ function Page() {
             <div className="font-sora text-3xl whitespace-nowrap text-black text-opacity-100 leading-none font-semibold">
               Activity
             </div>
-            <div className="mt-10 flex flex-col justify-start items-start pt-2 pl-3.5 rounded-[20px] w-[381px] h-24 shadow-md bg-black">
+            {transaction?.map((el: any, i) => {
+              return (
+                <div
+                  key={i}
+                  className="mt-8 flex flex-col space-y-2 justify-start items-start pt-2 pl-3.5 rounded-[20px] w-[381px] h-24 shadow-md bg-black"
+                >
+                  <div className="font-sora text-xs min-w-[61px] whitespace-nowrap text-white text-opacity-100 leading-none font-semibold">
+                    {Date(el.time).split("GMT")[0]}
+                  </div>
+                  <div className="mt-2 ml-12 font-sora text-lg min-w-[251px] whitespace-nowrap text-white text-opacity-100 leading-none font-semibold text-center">
+                    {el.for == "wallet" ? "Wallet" : el.for}
+                  </div>
+                  <div className="mt-1 ml-24 font-sora text-lg min-w-[156px] whitespace-nowrap text-white text-opacity-100 leading-none font-semibold text-center">
+                    {el?.amount} BitsCoins
+                  </div>
+                </div>
+              );
+            })}
+            {/* <div className="mt-10 flex flex-col justify-start items-start pt-2 pl-3.5 rounded-[20px] w-[381px] h-24 shadow-md bg-black">
               <div className="font-sora text-xs min-w-[61px] whitespace-nowrap text-white text-opacity-100 leading-none font-semibold">
                 01/08/23
               </div>
@@ -132,7 +161,7 @@ function Page() {
                   300 BitsCoins
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
