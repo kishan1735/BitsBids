@@ -1,6 +1,33 @@
+"use client";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 function Page() {
+  const { data: session, status } = useSession();
+  const [name, setName] = useState("");
+  const [mail, setMail] = useState("");
+  const [userId, setUserId] = useState("");
+  useEffect(
+    function () {
+      async function getUser() {
+        const requestBody = { email: session?.user?.email };
+        const res = await fetch("/api/user", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(requestBody),
+        });
+        const data = await res.json();
+        if (data.status == "success") {
+          setName(data.user.name);
+          setMail(data.user.email);
+          setUserId(data.user.id);
+        }
+      }
+      getUser();
+    },
+    [session?.user?.email]
+  );
   return (
     <>
       <div className="flex flex-col justify-between items-center pt-10 pb-10 gap-6 w-screen h-full bg-black">
@@ -31,24 +58,25 @@ function Page() {
               Manage your Profile
             </div>
             <div className="mt-[15vh] ml-4 font-sora text-xl min-w-[86px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
-              User id&nbsp;
+              Name&nbsp;
             </div>
             <div className="mt-3"></div>
             <div className="mt-4 ml-4 font-sora text-lg min-w-[206px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
-              user name&nbsp;
+              {name}&nbsp;
             </div>
             <div className="mt-14 ml-4 font-sora text-xl min-w-[173px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
               Email Address
             </div>
             <div className="mt-4 rotate-0"></div>
             <div className="mt-4 ml-4 font-sora text-lg min-w-[335px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
-              user@hyderabad.bits-pilani.ac.in
+              {mail}
             </div>
-            <div className="mt-[71px] ml-4 font-sora text-lg min-w-[179px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
-              change password
+            <div className="mt-14 ml-4 font-sora text-xl min-w-[173px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
+              User ID
             </div>
-            <div className="mt-7 ml-4 font-sora text-lg min-w-[96px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
-              my wallet
+            <div className="mt-4 rotate-0"></div>
+            <div className="mt-4 ml-4 font-sora text-lg min-w-[335px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
+              {userId}
             </div>
           </div>
           <div className="flex flex-col justify-start items-start w-[45vw] h-[25vh]">
