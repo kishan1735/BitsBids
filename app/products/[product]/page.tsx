@@ -45,10 +45,10 @@ function Page() {
               {product?.name}
             </div>
             <div className="mt-5 font-sora text-xl whitespace-nowrap text-red-400 text-opacity-100 leading-none font-bold">
-              Base Price {product?.basePrice}
+              Base Price : {product?.basePrice}
             </div>
             <div className="mt-5 font-sora text-2xl whitespace-nowrap text-red-500 text-opacity-100 leading-none font-bold">
-              Current Bid Rs.1200
+              Current Bid : {product?.currentBid}
             </div>
             <div className="mt-1 font-sora text-xl  text-black text-opacity-100 leading-none font-normal">
               <span className="font-semibold">
