@@ -1,15 +1,22 @@
 "use client";
 import NavBar from "@/components/NavBar";
+import { Input, Slider } from "@mui/material";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function Page() {
+  const { data: session, status } = useSession();
   const params = useParams();
   const [product, setProduct] = useState<any>({});
+  const [type, setType] = useState("");
+  const [bid, setBid] = useState<any>(0);
   useEffect(
     function () {
       async function getProduct() {
-        const res = await fetch(`/api/products/${params.product}`);
+        const res = await fetch(`/api/products/${params.product}`, {
+          headers: { "Content-type": "application/json" },
+        });
         const data = await res.json();
         if (data.status == "success") {
           setProduct(data.product);
@@ -19,6 +26,43 @@ function Page() {
     },
     [params.product]
   );
+  useEffect(
+    function () {
+      async function checkType() {
+        const requestBody = {
+          product: params.product,
+          user: session?.user?.email,
+        };
+        const res = await fetch("/api/type", {
+          method: "PATCH",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(requestBody),
+        });
+        const data = await res.json();
+        console.log(data);
+        if (data.status == "success") {
+          setType(data?.type);
+        }
+      }
+      checkType();
+    },
+    [params.product, session?.user?.email]
+  );
+
+  async function handleBid() {
+    const requestBody = {
+      bid,
+      email: session?.user?.email,
+      product: params.product,
+    };
+    const res = await fetch("/api/bid", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(requestBody),
+    });
+    const data = await res.json();
+  }
+  console.log(type != "seller");
   return (
     <div>
       <div className="flex flex-col font-sora items-center pt-10 pb-10 gap-8 w-screen h-full min-h-screen bg-black">
@@ -41,6 +85,10 @@ function Page() {
                 LIVE BID
               </div>
             </div>
+            <div className="flex space-x-4 text-black">
+              <h1 className="text-xl font-bold">Type :</h1>
+              <h1 className="text-xl">{type}</h1>
+            </div>
             <div className="mt-5 font-sora text-3xl whitespace-nowrap text-black text-opacity-100 leading-none font-bold">
               {product?.name}
             </div>
@@ -58,11 +106,29 @@ function Page() {
               {product?.description}
             </div>
             <div className="mt-[4vh] rotate-0"></div>
-            <button className="mt-8 flex justify-center items-center rounded-[20px]  h-[74px] px-[6vw] bg-stone-900 hover:scale-105">
-              <div className="font-sora text-xl  whitespace-nowrap text-white text-opacity-100 leading-none font-bold">
-                Place New Bid
-              </div>
-            </button>
+            {type != "Seller" ? (
+              <>
+                <input
+                  type="text"
+                  value={bid}
+                  onChange={(e) => {
+                    setBid(e.target.value);
+                  }}
+                  className="border-2 rounded-2xl border-black text-center text-xl py-1 w-20"
+                />
+
+                <button
+                  className="mt-8 flex justify-center items-center rounded-[20px]  h-[74px] px-[6vw] bg-stone-900 hover:scale-105"
+                  onClick={handleBid}
+                >
+                  <div className="font-sora text-xl  whitespace-nowrap text-white text-opacity-100 leading-none font-bold">
+                    Place New Bid
+                  </div>
+                </button>
+              </>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

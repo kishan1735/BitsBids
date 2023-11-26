@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.18",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.6",
     "@stripe/stripe-js": "^2.1.11",
     "@types/bcryptjs": "^2.4.4",
     "@types/micro-cors": "^0.1.5",
@@ -23,6 +27,7 @@
     "react-dom": "^18",
     "redis": "^4.6.10",
     "stripe": "^14.5.0",
+    "styled-components": "^6.1.1",
     "unique-names-generator": "^4.7.1",
     "validator": "^13.11.0"
   },

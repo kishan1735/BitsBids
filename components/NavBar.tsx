@@ -1,6 +1,9 @@
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 function NavBar() {
+  const { data: session, status } = useSession();
+  console.log(status);
   return (
     <>
       {" "}
@@ -21,9 +24,18 @@ function NavBar() {
         <div className="ml-[75px] font-sora text-xl min-w-[115px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal  hover:text-yellow-300 hover:scale-105">
           <Link href="/wallet">My Wallet</Link>
         </div>
-        <div className="ml-16 font-sora text-xl min-w-[63px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
-          <Link href="/login">Login</Link>
-        </div>
+        {status != "authenticated" ? (
+          <div className="ml-16 font-sora text-xl min-w-[63px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
+            <Link href="/login">Login</Link>
+          </div>
+        ) : (
+          <button
+            className="ml-16 text-white border-white border-2 px-4 py-1 rounded-3xl"
+            onClick={() => signOut()}
+          >
+            Logout
+          </button>
+        )}
       </div>
       <div className="absolute top-3.5 left-[378px] z-10 font-sora text-xl whitespace-nowrap text-white text-opacity-100 leading-none font-normal">
         &nbsp;
