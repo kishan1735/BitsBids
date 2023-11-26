@@ -7,14 +7,13 @@ export async function PATCH(req: Request) {
   try {
     await connectMongoDB();
     const data = await req.json();
-    console.log(data);
+
     const user = await User.findOne({ email: data?.user });
     if (!user) {
       throw new Error("User Not Found");
     }
     const current = await Current.findById(data?.product);
     if (current.seller[0].userId == user.id) {
-      console.log("hi");
       return NextResponse.json({ status: "success", type: "Seller" });
     } else if (current.currentBidder == user.id) {
       return NextResponse.json({ status: "success", type: "Highest" });

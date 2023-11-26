@@ -3,7 +3,6 @@ import Link from "next/link";
 
 function NavBar() {
   const { data: session, status } = useSession();
-  console.log(status);
   return (
     <>
       {" "}

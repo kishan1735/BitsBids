@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   try {
     await connectMongoDB();
     const data = await req.json();
-    console.log(data);
+
     let products;
     if (data.search != "") {
       products = await Current.find({

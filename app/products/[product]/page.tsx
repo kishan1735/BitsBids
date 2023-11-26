@@ -39,7 +39,7 @@ function Page() {
           body: JSON.stringify(requestBody),
         });
         const data = await res.json();
-        console.log(data);
+
         if (data.status == "success") {
           setType(data?.type);
         }
@@ -62,7 +62,7 @@ function Page() {
     });
     const data = await res.json();
   }
-  console.log(type != "seller");
+
   return (
     <div>
       <div className="flex flex-col font-sora items-center pt-10 pb-10 gap-8 w-screen h-full min-h-screen bg-black">
