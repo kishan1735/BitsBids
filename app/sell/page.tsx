@@ -27,6 +27,13 @@ function Page() {
       body: JSON.stringify(requestBody),
     });
     const data = await res.json();
+    if (data.status == "success") {
+      // setName("");
+      // setPrice("");
+      // setDescription("");
+      // setAcademic(false);
+      // setTime(2);
+    }
   }
 
   return (
@@ -38,6 +45,9 @@ function Page() {
           </div>
           <div className="ml-48 font-sora text-xl min-w-[42px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
             <Link href="/sell">Sell</Link>
+          </div>
+          <div className="ml-16 font-sora text-xl min-w-[63px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
+            <Link href="/bids">Bids</Link>
           </div>
           <div className="ml-[75px] font-sora text-xl min-w-[80px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
             <Link href="/user/profile">Profile&nbsp;</Link>
