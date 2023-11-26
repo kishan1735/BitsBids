@@ -13,10 +13,10 @@ export interface Users extends mongoose.Document {
   role: string;
   password: string;
   id: string;
-
+  phoneNumber: number;
   bitscoins: number;
   transactionHistory: Array<transaction>;
-
+  hostel: string;
   createdAt: Date;
   passwordChangedAt: Date;
   profilePicture: string;
@@ -38,7 +38,10 @@ const userSchema = new mongoose.Schema<Users>({
     validate: [validator.isEmail, "Provide a valid email"],
     lowercase: true,
   },
-  // role: { type: String, enum: ["admin", "student"] },
+  phoneNumber: {
+    type: Number,
+  },
+  hostel: String,
   password: {
     type: String,
     select: false,

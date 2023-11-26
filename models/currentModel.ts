@@ -15,6 +15,7 @@ interface Current extends mongoose.Document {
   duration: Array<object>;
   seller: Array<Object>;
   bidders: Array<Object>;
+  currentBid: number;
 }
 const durationSchema = new mongoose.Schema({
   startTime: { type: Date, default: Date.now() },
@@ -54,6 +55,7 @@ const currentSchema = new mongoose.Schema<Current>({
   duration: { type: [durationSchema], default: [] },
   seller: { type: [sellerSchema], default: [] },
   bidders: { type: [bidderSchema], default: [] },
+  currentBid: { type: Number, default: 0 },
 });
 
 const Current =

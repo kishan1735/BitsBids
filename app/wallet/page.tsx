@@ -40,7 +40,7 @@ function Page() {
     const data = await res.json();
     const stripe = await getStripe();
     const { error }: { error: any } = await stripe!.redirectToCheckout({
-      sessionId: data?.session.id,
+      sessionId: data?.session?.id,
     });
     if (error) {
       setError(error);

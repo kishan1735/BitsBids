@@ -52,7 +52,7 @@ function Page() {
         <div className="absolute top-3.5 left-[378px] z-10 font-sora text-xl whitespace-nowrap text-white text-opacity-100 leading-none font-normal">
           &nbsp;
         </div>
-        <div className="flex flex-col justify-center items-center pt-14 pr-8 pl-8 gap-16 rounded-[40px] w-[99vw] h-full bg-white min-h-[60vh] pb-10">
+        <div className="flex flex-col justify-center items-center pt-14 pr-8 pl-8 gap-12 rounded-[40px] w-[99vw] h-full bg-white min-h-[60vh] pb-10">
           <input
             type="text"
             className="border-2 border-black py-1 px-[8vw] text-xl text-center rounded-2xl"
@@ -65,11 +65,11 @@ function Page() {
               return (
                 <div
                   key={i}
-                  className="border-2 flex flex-col space-y-2 border-slate-100 bg-black text-white rounded-xl font-sora px-[4vw] py-[4vh] items-center cursor-pointer hover:scale-105 "
+                  className="border-2 flex flex-col justify-center space-y-2 border-slate-100 bg-black text-white rounded-xl font-sora px-[4vw] py-[4vh] items-center cursor-pointer hover:scale-105 "
                   onClick={() => router.push(`/products/${el._id.toString()}`)}
                 >
                   <div className="text-2xl text-yellow-300">{el.name}</div>
-                  <div className="text-xl">{el.description}</div>
+                  <div className="text-xl">{el.description.slice(0, 100)}</div>
                   <div className="flex text-xl space-x-2 pb-2">
                     <div className="">Base Price :</div>
                     <div>{el.basePrice}</div>

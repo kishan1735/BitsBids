@@ -1,6 +1,6 @@
 "use client";
+import NavBar from "@/components/NavBar";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 function Page() {
@@ -39,31 +39,9 @@ function Page() {
   return (
     <>
       <div className="flex flex-col justify-between items-center pt-10 pb-10 gap-8 w-screen h-full min-h-screen bg-black">
-        <div className="flex justify-start items-center h-[10vh]">
-          <div className="font-sora text-4xl min-w-[215px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-blue-300">
-            <Link href="/">BITSbids</Link>
-          </div>
-          <div className="ml-48 font-sora text-xl min-w-[42px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
-            <Link href="/sell">Sell</Link>
-          </div>
-          <div className="ml-16 font-sora text-xl min-w-[63px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
-            <Link href="/bids">Bids</Link>
-          </div>
-          <div className="ml-[75px] font-sora text-xl min-w-[80px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
-            <Link href="/user/profile">Profile&nbsp;</Link>
-          </div>
-          <div className="ml-[75px] font-sora text-xl min-w-[115px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal  hover:text-yellow-300 hover:scale-105">
-            <Link href="/wallet">My Wallet</Link>
-          </div>
-          <div className="ml-16 font-sora text-xl min-w-[63px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
-            <Link href="/login">Login</Link>
-          </div>
-        </div>
-        <div className="absolute top-3.5 left-[378px] z-10 font-sora text-xl whitespace-nowrap text-white text-opacity-100 leading-none font-normal">
-          &nbsp;
-        </div>
+        <NavBar />
 
-        <div className="flex justify-between items-start pt-14 pr-10 pl-[132px] gap-16 rounded-[40px] w-[99vw] h-full bg-white">
+        <div className="flex justify-between items-start pt-14 pr-10 pl-[132px] gap-16 rounded-[40px] w-[96vw] h-full bg-white">
           <div className="mt-14 flex flex-col justify-between items-center gap-8 w-[407px] h-[516px]">
             <button className="flex flex-col justify-center items-center rounded-[20px] w-[35vw] h-[55vh] shadow-md bg-white">
               <div className="font-sora text-xl whitespace-nowrap text-black text-opacity-100 leading-none font-normal">

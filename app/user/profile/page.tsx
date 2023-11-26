@@ -1,13 +1,18 @@
 "use client";
+import NavBar from "@/components/NavBar";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function Page() {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [name, setName] = useState("");
   const [mail, setMail] = useState("");
   const [userId, setUserId] = useState("");
+  const [hostel, setHostel] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState<any>();
   useEffect(
     function () {
       async function getUser() {
@@ -22,6 +27,8 @@ function Page() {
           setName(data.user.name);
           setMail(data.user.email);
           setUserId(data.user.id);
+          setHostel(data.user.hostel);
+          setPhoneNumber(data.user.phoneNumber);
         }
       }
       getUser();
@@ -31,56 +38,71 @@ function Page() {
   return (
     <>
       <div className="flex flex-col justify-between items-center pt-10 pb-10 gap-6 w-screen h-full bg-black">
-        <div className="flex justify-start items-center h-[10vh]">
-          <div className="font-sora text-4xl min-w-[215px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-blue-300">
-            <Link href="/">BITSbids</Link>
-          </div>
-          <div className="ml-48 font-sora text-xl min-w-[42px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
-            <Link href="/sell">Sell</Link>
-          </div>
-          <div className="ml-16 font-sora text-xl min-w-[63px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
-            <Link href="/bids">Bids</Link>
-          </div>
-          <div className="ml-[75px] font-sora text-xl min-w-[80px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
-            <Link href="/user/profile">Profile&nbsp;</Link>
-          </div>
-          <div className="ml-[75px] font-sora text-xl min-w-[115px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal  hover:text-yellow-300 hover:scale-105">
-            <Link href="/sell">My Wallet</Link>
-          </div>
-          <div className="ml-16 font-sora text-xl min-w-[63px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-yellow-300 hover:scale-105">
-            <Link href="/login">Login</Link>
-          </div>
-        </div>
-        <div className="flex justify-start items-start pt-14 pl-24 rounded-[40px] w-[98vw] h-full bg-white">
-          <div className="mt-[311px]"></div>
+        <NavBar />
+        <div className="flex justify-start items-start pt-14 pl-24 rounded-[40px] w-[96vw] h-full bg-white">
+          <div className="mt-[200px]"></div>
           <div className="mt-1.5 ml-3 flex flex-col justify-start items-start w-[561px] h-[615px]">
             <div className="ml-4 font-sora text-4xl min-w-[162px] whitespace-nowrap text-black text-opacity-100 leading-none font-semibold">
               Profile
             </div>
-            <div className="mt-2 ml-4 font-sora text-lg min-w-[200px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
+            <div className="mt-4 ml-4 font-sora text-lg min-w-[200px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
               Manage your Profile
             </div>
-            <div className="mt-[15vh] ml-4 font-sora text-xl min-w-[86px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
-              Name&nbsp;
+            <div className="flex items-center mt-8">
+              {" "}
+              <div className=" ml-4 font-sora text-xl min-w-[173px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
+                Name
+              </div>
+              <div className="font-sora text-lg min-w-[335px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
+                {name}
+              </div>
             </div>
-            <div className="mt-3"></div>
-            <div className="mt-4 ml-4 font-sora text-lg min-w-[206px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
-              {name}&nbsp;
+            <div className="flex items-center mt-8">
+              {" "}
+              <div className=" ml-4 font-sora text-xl min-w-[173px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
+                Email Address
+              </div>
+              <div className="font-sora text-lg min-w-[335px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
+                {mail}
+              </div>
             </div>
-            <div className="mt-14 ml-4 font-sora text-xl min-w-[173px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
-              Email Address
+
+            <div className="flex items-center mt-8">
+              {" "}
+              <div className=" ml-4 font-sora text-xl min-w-[173px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
+                User Id
+              </div>
+              <div className="font-sora text-lg min-w-[335px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
+                {userId}
+              </div>
             </div>
-            <div className="mt-4 rotate-0"></div>
-            <div className="mt-4 ml-4 font-sora text-lg min-w-[335px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
-              {mail}
+            <div className="flex items-center mt-8">
+              {" "}
+              <div className=" ml-4 font-sora text-xl min-w-[173px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
+                Phone Number
+              </div>
+              <div className="font-sora text-lg min-w-[335px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
+                {phoneNumber}
+              </div>
             </div>
-            <div className="mt-14 ml-4 font-sora text-xl min-w-[173px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
-              User ID
+            <div className="flex items-center mt-8">
+              <div className=" ml-4 font-sora text-xl min-w-[173px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
+                Hostel
+              </div>
+              <div className="font-sora text-lg min-w-[335px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
+                {hostel}
+              </div>
             </div>
-            <div className="mt-4 rotate-0"></div>
-            <div className="mt-4 ml-4 font-sora text-lg min-w-[335px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
-              {userId}
-            </div>
+            <div className="p-6"></div>
+            <button
+              className="bg-black px-[6vw] py-3 rounded-xl text-white text-xl mx-auto hover:scale-105"
+              onClick={() => {
+                router?.push("/user/update");
+                console.log("Hello");
+              }}
+            >
+              Update Profile
+            </button>
           </div>
           <div className="flex flex-col justify-start items-start w-[45vw] h-[25vh]">
             <img
