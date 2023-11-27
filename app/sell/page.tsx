@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 function Page() {
+  const [file, setFile] = useState<File>();
   const { data: session, status } = useSession();
   const [name, setName] = useState("");
   const [price, setPrice] = useState<any>(null);
@@ -21,33 +22,62 @@ function Page() {
       time,
       academic,
     };
-    const res = await fetch("/api/sell", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(requestBody),
-    });
-    const data = await res.json();
-    if (data.status == "success") {
-      // setName("");
-      // setPrice("");
-      // setDescription("");
-      // setAcademic(false);
-      // setTime(2);
+    // const res = await fetch("/api/sell", {
+    //   method: "POST",
+    //   headers: { "Content-type": "application/json" },
+    //   body: JSON.stringify(requestBody),
+    // });
+    // const data = await res.json();
+    // if (data.status == "success") {
+    // setName("");
+    // setPrice("");
+    // setDescription("");
+    // setAcademic(false);
+    // setTime(2);
+    // }
+  }
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!file) return;
+
+    try {
+      const formData = new FormData();
+      formData.set("file", file);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+    } catch (err: any) {
+      console.log(err.message);
     }
   }
-
   return (
     <>
-      <div className="flex flex-col justify-between items-center pt-10 pb-10 gap-8 w-screen h-full min-h-screen bg-black">
+      <div className="flex flex-col justify-between items-center pt-6 pb-6 gap-8 w-screen h-full min-h-screen bg-black">
         <NavBar />
 
         <div className="flex justify-between items-start pt-14 pr-10 pl-[132px] gap-16 rounded-[40px] w-[96vw] h-full bg-white">
           <div className="mt-14 flex flex-col justify-between items-center gap-8 w-[407px] h-[516px]">
-            <button className="flex flex-col justify-center items-center rounded-[20px] w-[35vw] h-[55vh] shadow-md bg-white">
+            <form
+              className="flex flex-col space-y-4 justify-center items-center rounded-[20px] w-[35vw] h-[55vh] shadow-md bg-white"
+              onSubmit={handleSubmit}
+            >
               <div className="font-sora text-xl whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
                 Insert Images&nbsp;&nbsp;
               </div>
-            </button>
+              <input
+                type="file"
+                className="border-2 border-slate-300 text-center"
+                onChange={(e) => setFile(e.target.files?.[0])}
+              />
+              <input
+                type="submit"
+                value="Upload"
+                className="border-2 border-slate-300 px-4 py-1 cursor-pointer"
+              />
+            </form>
           </div>
           <div className="flex flex-col justify-start items-center w-[50vw]">
             <div className="font-sora text-3xl whitespace-nowrap text-black text-opacity-100 leading-none font-semibold">
