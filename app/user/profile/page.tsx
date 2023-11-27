@@ -98,7 +98,6 @@ function Page() {
               className="bg-black px-[6vw] py-3 rounded-xl text-white text-xl mx-auto hover:scale-105"
               onClick={() => {
                 router?.push("/user/update");
-                console.log("Hello");
               }}
             >
               Update Profile

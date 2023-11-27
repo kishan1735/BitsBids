@@ -25,10 +25,8 @@ export async function POST(req: Request) {
     const characterName: string = uniqueNamesGenerator(config);
     if (data?.bid > current.currentBid) {
       try {
-        console.log(current.currentBidder[0].userId);
         old = await User.findById(current.currentBidder[0].userId);
         coins = old.bitscoins + current.currentBid;
-        console.log(old.bitscoins, current.currentBid);
         const older = await User.findByIdAndUpdate(old._id, {
           bitscoins: coins,
         });
