@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
 type prevBidders = {
-  person: {
-    userId: string;
-    randomId: string;
-    bidPrice: number;
-  };
+  userId: string;
+  randomId: string;
+  bidPrice: number;
 };
 interface Current extends mongoose.Document {
   description: string;
@@ -16,7 +14,7 @@ interface Current extends mongoose.Document {
   seller: Array<Object>;
   bidders: Array<Object>;
   currentBid: number;
-  currentBidder: string;
+  currentBidder: Array<Object>;
 }
 const durationSchema = new mongoose.Schema({
   startTime: { type: Date, default: Date.now() },
@@ -26,17 +24,18 @@ const durationSchema = new mongoose.Schema({
 const sellerSchema = new mongoose.Schema({
   userId: { type: String, required: true },
   randomId: { type: String, required: true },
+  bidPrice: { type: Number, default: 0 },
 });
 
 const currentBidderSchema = new mongoose.Schema({
   userId: { type: String, default: "" },
   randomId: { type: String, default: "" },
-  bidPrice: { type: Number, default: 0 },
 });
 
 const bidderSchema = new mongoose.Schema({
-  currentBidder: { type: [currentBidderSchema], default: [] },
-  prevBidders: { type: Array<prevBidders> },
+  userId: String,
+  randomId: String,
+  bidPrice: Number,
 });
 
 const currentSchema = new mongoose.Schema<Current>({
@@ -57,7 +56,7 @@ const currentSchema = new mongoose.Schema<Current>({
   seller: { type: [sellerSchema], default: [] },
   bidders: { type: [bidderSchema], default: [] },
   currentBid: { type: Number, default: 0 },
-  currentBidder: { type: String, default: "" },
+  currentBidder: { type: [currentBidderSchema], default: [] },
 });
 
 const Current =

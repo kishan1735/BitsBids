@@ -61,6 +61,10 @@ function Page() {
       body: JSON.stringify(requestBody),
     });
     const data = await res.json();
+    if (data.status == "success") {
+      // router.reload();
+      location.reload();
+    }
   }
 
   return (
