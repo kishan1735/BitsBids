@@ -13,12 +13,13 @@ function Page() {
   const { data: session, status } = useSession();
   const params = useParams();
   const [product, setProduct] = useState<any>({});
-  const [date1, setDate1] = useState<any>("");
+  const [date2, setDate2] = useState<any>();
   const [type, setType] = useState("");
   const [bid, setBid] = useState<any>(0);
   const [user, setUser] = useState("");
   const [loading, setLoading] = useState(true);
   const [downloadUrl, setDownloadUrl] = useState("");
+
   useEffect(
     function () {
       async function getProduct() {
@@ -34,7 +35,8 @@ function Page() {
           date1.setHours(
             date1.getHours() + data?.product?.duration[0].expirationTime
           );
-          setDate1(date1.toISOString());
+          setDate2(date1);
+          console.log(date1);
           const downloaded: any = await download(data?.product?.picture);
           setDownloadUrl(downloaded);
         }
@@ -43,6 +45,7 @@ function Page() {
     },
     [params.product]
   );
+
   useEffect(
     function () {
       async function checkType() {
@@ -68,6 +71,28 @@ function Page() {
     [params.product, session?.user?.email]
   );
 
+  useEffect(
+    function () {
+      async function checkSold() {
+        const booly = Date.now() < date2;
+        if (!booly) {
+          const res = await fetch(`/api/products/${params.product}`, {
+            method: "POST",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({}),
+          });
+          const data = await res.json();
+          console.log(data);
+          if (data.status == "success") {
+            router.push("/wallet");
+          }
+        }
+      }
+      checkSold();
+    },
+
+    [date2, params.product, router]
+  );
   async function handleBid() {
     const requestBody = {
       bid,

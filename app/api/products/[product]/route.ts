@@ -26,10 +26,10 @@ export async function POST(req: Request, { params }: { params: any }) {
     let product = await Current.findById(params.product);
     console.log(product);
     const past = await PastBids.create({
-      name: product.name,
-      buyer: product.currentBidder[0].userId,
-      soldPrice: product.currentBid,
-      picture: product.picture,
+      name: product?.name,
+      buyer: product?.currentBidder[0]?.userId,
+      soldPrice: product?.currentBid,
+      picture: product?.picture,
       seller: product?.seller[0]?.userId,
     });
     console.log(past);
@@ -38,8 +38,8 @@ export async function POST(req: Request, { params }: { params: any }) {
       {
         $push: {
           transactionHistory: {
-            for: product.name,
-            amount: -product.currentBid,
+            for: product?.name,
+            amount: -product?.currentBid,
             time: Date.now(),
           },
         },
@@ -52,8 +52,8 @@ export async function POST(req: Request, { params }: { params: any }) {
       {
         $push: {
           transactionHistory: {
-            for: product.name,
-            amount: +product.currentBid,
+            for: product?.name,
+            amount: +product?.currentBid,
             time: Date.now(),
           },
         },

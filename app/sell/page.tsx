@@ -2,9 +2,11 @@
 import AuthCheck from "@/components/AuthCheck";
 import NavBar from "@/components/NavBar";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function Page() {
+  const router = useRouter();
   const [file, setFile] = useState<File>();
   const { data: session, status } = useSession();
   const [name, setName] = useState("");
@@ -38,6 +40,7 @@ function Page() {
       });
       const data = await res.json();
       if (data.status == "success") {
+        router.push("/");
         setName("");
         setPrice("");
         setDescription("");
