@@ -1,4 +1,5 @@
 "use client";
+import AuthCheck from "@/components/AuthCheck";
 import getStripe from "@/utils/stripe";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -47,7 +48,7 @@ function Page() {
     }
   }
   return (
-    <>
+    <AuthCheck>
       <div className="flex flex-col justify-between items-center pt-8 pb-12 gap-8 w-screen h-full min-h-screen bg-black">
         <div className="flex justify-start items-center h-[10vh]">
           <div className="font-sora text-4xl min-w-[215px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-blue-300">
@@ -168,7 +169,7 @@ function Page() {
           </div>
         </div>
       </div>
-    </>
+    </AuthCheck>
   );
 }
 

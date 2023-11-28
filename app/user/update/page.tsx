@@ -1,4 +1,5 @@
 "use client";
+import AuthCheck from "@/components/AuthCheck";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -48,7 +49,7 @@ function Page() {
     }
   }
   return (
-    <div>
+    <AuthCheck>
       <div className="flex flex-col items-center pt-8 pb-5 gap-6 w-screen h-full bg-black min-h-screen">
         <div className="flex justify-start items-center h-[10vh]">
           <div className="font-sora text-4xl min-w-[215px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal hover:text-blue-300">
@@ -124,7 +125,7 @@ function Page() {
           </button>
         </div>
       </div>
-    </div>
+    </AuthCheck>
   );
 }
 

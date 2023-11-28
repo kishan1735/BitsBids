@@ -35,7 +35,6 @@ const currentBidderSchema = new mongoose.Schema({
 const bidderSchema = new mongoose.Schema({
   userId: String,
   randomId: String,
-  bidPrice: Number,
 });
 
 const currentSchema = new mongoose.Schema<Current>({

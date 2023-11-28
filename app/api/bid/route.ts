@@ -12,6 +12,7 @@ export async function POST(req: Request) {
   try {
     let coins;
     let old;
+    let bidder;
     await connectMongoDB();
     const data = await req.json();
     let current = await Current.findById(data?.product);
@@ -32,6 +33,10 @@ export async function POST(req: Request) {
         });
       } catch (err: any) {}
       try {
+        bidder = current?.bidders?.filter((el: any) => {
+          el.userId == user._id.toString();
+        })[0];
+        console.log(bidder);
         current = await Current.findByIdAndUpdate(data?.product, {
           $pull: { currentBidder: { userId: old._id } },
         });
@@ -42,15 +47,32 @@ export async function POST(req: Request) {
         $push: {
           currentBidder: {
             userId: user._id,
-            randomId: `${characterName}` + `${Date.now()}`,
+            randomId: bidder
+              ? bidder.randomId
+              : `${characterName}` + `${Date.now()}`,
             bidPrice: +data?.bid,
-          },
-          bidders: {
-            userId: user._id,
-            randomId: `${characterName}` + `${Date.now()}`,
           },
         },
       });
+      current = await Current.findById(data?.product);
+      if (!bidder) {
+        console.log(
+          current.currentBidder[0].randomId,
+          data?.product,
+          user._id.toString()
+        );
+        const current1 = await Current.findById(data?.product);
+        // console.log(current1);
+        const current2 = await Current.findByIdAndUpdate(data?.product, {
+          $push: {
+            bidders: {
+              userId: user._id.toString(),
+              randomId: current1.currentBidder[0].randomId.toString(),
+            },
+          },
+        });
+        console.log(current2);
+      }
 
       user = await User.findByIdAndUpdate(user._id, {
         bitscoins: coins - data?.bid,

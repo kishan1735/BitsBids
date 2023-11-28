@@ -1,4 +1,5 @@
 import connectMongoDB from "@/lib/dbConnect";
+import Chat from "@/models/chatModel";
 import Current from "@/models/currentModel";
 import { NextResponse } from "next/server";
 

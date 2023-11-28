@@ -1,6 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  deleteObject,
+  getDownloadURL,
+} from "firebase/storage";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -32,4 +38,9 @@ export const deleteFile = async (formattedDate: any, ext: any) => {
   const desertRef = ref(storage, bucket);
 
   await deleteObject(desertRef);
+};
+
+export const download = async (name: any) => {
+  const downloadUrl = await getDownloadURL(ref(storage, name));
+  return downloadUrl;
 };

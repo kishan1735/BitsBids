@@ -6,43 +6,43 @@ type Chat = {
   senderId: string;
   recieverId: string;
 };
-interface Chats extends mongoose.Document {
-  productId: string;
-  seller: string;
-  buyer: string;
-  messages: {
-    type: Array<Chat>;
-  };
-}
 
 const chats = new mongoose.Schema({
   to: {
     type: String,
-    enum: ["Buyer", "Seller"],
   },
   from: {
     type: String,
-    enum: ["Buyer", "Seller"],
   },
   time: {
     type: Date,
     default: Date.now(),
   },
-});
-const messageSchema = new mongoose.Schema({
-  buyer: String,
-  messages: {
-    type: [chats],
-    default: [],
+  chat: {
+    type: String,
   },
 });
-const chatSchema = new mongoose.Schema<Chats>({
+
+const chatSchema = new mongoose.Schema({
   productId: {
     type: String,
     required: true,
   },
+  buyer: {
+    type: String,
+  },
+  buyRandomId: {
+    type: String,
+  },
+  seller: {
+    type: String,
+  },
+  sellRandomId: {
+    type: String,
+  },
   messages: {
-    type: [messageSchema],
+    type: [chats],
+    default: [],
   },
 });
 

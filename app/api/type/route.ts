@@ -13,10 +13,16 @@ export async function PATCH(req: Request) {
       throw new Error("User Not Found");
     }
     const current = await Current.findById(data?.product);
-    if (current.seller[0].userId == user.id) {
+
+    if (current?.seller[0]?.userId == user.id) {
       return NextResponse.json({ status: "success", type: "Seller" });
-    } else if (current.currentBidder == user.id) {
+    } else if (current.currentBidder[0].userId == user._id) {
       return NextResponse.json({ status: "success", type: "Highest" });
+    } else if (
+      current.bidders.filter((el: any) => el.userId == user.id)[0].userId ==
+      user.id
+    ) {
+      return NextResponse.json({ status: "success", type: "Bidder" });
     }
     if (!current) {
       throw new Error("Product not found");
