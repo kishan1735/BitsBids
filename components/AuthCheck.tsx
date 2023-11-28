@@ -4,7 +4,6 @@ import { signIn, useSession } from "next-auth/react";
 import NavBar from "./NavBar";
 
 export default function AuthCheck({ children }: { children: React.ReactNode }) {
-  console.log(process.env.URL);
   const { data: session, status } = useSession();
   if (status == "authenticated") {
     return <>{children}</>;

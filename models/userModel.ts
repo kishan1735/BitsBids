@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import validator from "validator";
-import bcrypt from "bcryptjs";
 
 type transaction = {
   amount: Number;
@@ -56,20 +55,6 @@ const userSchema = new mongoose.Schema<Users>({
   profilePicture: { type: String, default: "Default Image Link Goes Here" },
   chats: { id: { type: String } },
 });
-
-// userSchema.pre("save", async function (next) {
-//   const user = this;
-//   if (!user.isModified) return next();
-//   if (!user.password) return next();
-//   user.password = await bcrypt.hash(user.password, 12);
-// });
-
-// userSchema.methods.correctPassword = async function (
-//   candidatePassword: string,
-//   userPassword: string
-// ) {
-//   return await bcrypt.compare(candidatePassword, userPassword);
-// };
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 export default User;

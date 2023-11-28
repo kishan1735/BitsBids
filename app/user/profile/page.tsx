@@ -21,7 +21,7 @@ function Page() {
       async function getUser() {
         const requestBody = { email: session?.user?.email };
         setLoading(true);
-        const res = await fetch("/api/user", {
+        const res = await fetch("/api/user/", {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify(requestBody),

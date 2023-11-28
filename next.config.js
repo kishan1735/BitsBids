@@ -15,6 +15,9 @@ const nextConfig = {
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
     BUCKET_URL: process.env.BUCKET_URL,
+    EMAIL_HOST: process.env.EMAIL_HOST,
+    EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
+    EMAIL_USERNAME: process.env.EMAIL_USERNAME,
   },
 };
 

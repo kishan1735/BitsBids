@@ -13,6 +13,7 @@ function Page() {
   const { data: session, status } = useSession();
   const params = useParams();
   const [product, setProduct] = useState<any>({});
+  const [date1, setDate1] = useState<any>("");
   const [type, setType] = useState("");
   const [bid, setBid] = useState<any>(0);
   const [user, setUser] = useState("");
@@ -29,6 +30,11 @@ function Page() {
         setLoading(false);
         if (data.status == "success") {
           setProduct(data.product);
+          let date1 = new Date(data?.product?.duration[0].startTime);
+          date1.setHours(
+            date1.getHours() + data?.product?.duration[0].expirationTime
+          );
+          setDate1(date1.toISOString());
           const downloaded: any = await download(data?.product?.picture);
           setDownloadUrl(downloaded);
         }
@@ -121,6 +127,18 @@ function Page() {
       console.log(err.message);
     }
   }
+  async function handleClose() {
+    const res = await fetch(`/api/products/${params.product}`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({}),
+    });
+    const data = await res.json();
+    console.log(data);
+    if (data.status == "success") {
+      router.push("/wallet");
+    }
+  }
 
   return (
     <AuthCheck>
@@ -194,7 +212,7 @@ function Page() {
                 )}
                 {type == "Highest" || type == "Bidder" ? (
                   <button
-                    className="mt-8 flex justify-center items-center rounded-[20px]  px-6 py-1 text-xl bg-red-400 hover:scale-105 text-white"
+                    className="mt-8 flex justify-center items-center rounded-lg  px-6 py-2 text-xl bg-black hover:scale-105 text-white"
                     onClick={() => {
                       createChat();
                     }}
@@ -203,13 +221,23 @@ function Page() {
                   </button>
                 ) : (
                   <button
-                    className="mt-8 flex justify-center items-center rounded-[20px]  px-6 py-1 text-xl bg-red-400 hover:scale-105 text-white"
+                    className="mt-8 flex justify-center items-center rounded-lg  px-6 py-2 text-xl bg-black hover:scale-105 text-white"
                     onClick={() => {
                       router.push(`/product/${params.product}/chat`);
                     }}
                   >
                     Chat
                   </button>
+                )}
+                {type == "Seller" ? (
+                  <button
+                    className="mt-8 flex justify-center items-center rounded-[20px]  h-[74px] px-[6vw] bg-stone-900 hover:scale-105 text-white font-sora text-xl"
+                    onClick={handleClose}
+                  >
+                    Close Bid
+                  </button>
+                ) : (
+                  ""
                 )}
               </div>
             </>
