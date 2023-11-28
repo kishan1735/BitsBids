@@ -16,6 +16,8 @@ function Page() {
   const [hostel, setHostel] = useState("");
   const [phoneNumber, setPhoneNumber] = useState<any>();
   const [loading, setLoading] = useState(true);
+  const [previous, setPrevious] = useState<any>();
+  const [prev, setPrev] = useState<any>();
   useEffect(
     function () {
       async function getUser() {
@@ -37,6 +39,44 @@ function Page() {
         }
       }
       getUser();
+    },
+    [session?.user?.email]
+  );
+  useEffect(
+    function () {
+      async function getPrevious() {
+        const requestBody = { email: session?.user?.email };
+        const res = await fetch("/api/previous", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(requestBody),
+        });
+        const data = await res.json();
+
+        if (data.status == "success") {
+          setPrevious(data?.pasts);
+        }
+      }
+      getPrevious();
+    },
+    [session?.user?.email]
+  );
+  useEffect(
+    function () {
+      async function getPrevious() {
+        const requestBody = { email: session?.user?.email };
+        const res = await fetch("/api/previous", {
+          method: "PATCH",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(requestBody),
+        });
+        const data = await res.json();
+
+        if (data.status == "success") {
+          setPrev(data?.pasts);
+        }
+      }
+      getPrevious();
     },
     [session?.user?.email]
   );
@@ -114,41 +154,39 @@ function Page() {
                   </button>
                 </div>
                 <div className="flex flex-col justify-start items-start w-[45vw] h-[25vh]">
-                  <img
-                    src="/images/Profile4.png"
-                    alt="Image Asset 4"
-                    width="104px"
-                    height="104px"
-                  />
                   <div className="mt-[136px] ml-[121px] font-sora text-xl min-w-[237px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
                     Previous Purchaces
                   </div>
-                  <div className="mt-3 ml-[91px]"></div>
-                  <div className="mt-4 ml-[121px] flex justify-between items-center gap-3 w-[250px] h-6">
-                    <div className="font-sora text-lg min-w-[220px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
-                      view purchace history
-                    </div>
-                    <img
-                      src="/images/Profile3.png"
-                      alt="Image Asset 3"
-                      width="18px"
-                      height="13px"
-                    />
+                  <div className="mt-5"></div>
+                  <div className="flex flex-col mx-auto space-y-2 py-2">
+                    {prev?.map((el: any, i: any) => {
+                      return (
+                        <div
+                          key={i}
+                          className="bg-black text-white px-2 py-1 rounded-xl text-center"
+                        >
+                          <h1>{el.name}</h1>
+                          <h1>{el.soldPrice}</h1>
+                        </div>
+                      );
+                    })}
                   </div>
                   <div className="mt-14 ml-[122px] font-sora text-xl min-w-[131px] whitespace-nowrap text-black text-opacity-100 leading-none font-medium">
                     Items Sold
                   </div>
-                  <div className="mt-4 ml-[91px] rotate-0"></div>
-                  <div className="mt-4 ml-[121px] flex justify-between items-center gap-10 w-[250px] h-6">
-                    <div className="font-sora text-lg min-w-[191px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
-                      view selling history
-                    </div>
-                    <img
-                      src="/images/Profile2.png"
-                      alt="Image Asset 2"
-                      width="18px"
-                      height="13px"
-                    />
+                  <div className="mt-5"></div>
+                  <div className="flex flex-col mx-auto space-y-2 py-2">
+                    {previous?.map((el: any, i: any) => {
+                      return (
+                        <div
+                          key={i}
+                          className="bg-black text-white px-2 py-1 rounded-xl text-center"
+                        >
+                          <h1>{el.name}</h1>
+                          <h1>{el.soldPrice}</h1>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </>

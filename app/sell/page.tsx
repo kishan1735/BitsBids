@@ -40,11 +40,11 @@ function Page() {
       });
       const data = await res.json();
       if (data.status == "success") {
-        router.push("/");
         setName("");
         setPrice("");
         setDescription("");
         setAcademic(false);
+        router.push("/");
       }
     } catch (err: any) {
       console.log(err.message);

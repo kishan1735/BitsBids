@@ -49,8 +49,6 @@ export async function POST(request: NextRequest) {
     if (!current) {
       throw new Error("Unable to create");
     }
-
-    await File.create({});
     return NextResponse.json({ status: "success" });
   } catch (err: any) {
     return NextResponse.json({ status: "failed" });

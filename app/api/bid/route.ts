@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       throw new Error("User not found");
     }
     const characterName: string = uniqueNamesGenerator(config);
-    if (data?.bid > current.currentBid) {
+    if (data?.bid > current.currentBid && data?.bid > current.basePrice) {
       try {
         old = await User.findById(current.currentBidder[0].userId);
         coins = old.bitscoins + current.currentBid;
