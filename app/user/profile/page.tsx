@@ -21,22 +21,23 @@ function Page() {
   useEffect(
     function () {
       async function getUser() {
+        console.log(session?.user?.email);
         const requestBody = { email: session?.user?.email };
         setLoading(true);
-        const res = await fetch("/api/user/", {
+        const res = await fetch("http://localhost:8080/api/user/", {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify(requestBody),
         });
         const data = await res.json();
         setLoading(false);
-        if (data.status == "success") {
-          setName(data.user.name);
-          setMail(data.user.email);
-          setUserId(data.user.id);
-          setHostel(data.user.hostel);
-          setPhoneNumber(data.user.phoneNumber);
-        }
+        console.log(data);
+
+        setName(data?.user?.body);
+        setMail(data?.email?.body);
+        setUserId(data?.userId?.body);
+        setHostel(data?.hostel?.body);
+        setPhoneNumber(data?.phoneNumber?.body);
       }
       getUser();
     },
@@ -123,7 +124,7 @@ function Page() {
                       User Id
                     </div>
                     <div className="font-sora text-lg min-w-[335px] whitespace-nowrap text-black text-opacity-100 leading-none font-light">
-                      {userId}
+                      {mail?.split("@")[0]}
                     </div>
                   </div>
                   <div className="flex items-center mt-8">
@@ -147,6 +148,7 @@ function Page() {
                   <button
                     className="bg-black px-[6vw] py-3 rounded-xl text-white text-xl mx-auto hover:scale-105"
                     onClick={() => {
+                      console.log("hi");
                       router?.push("/user/update");
                     }}
                   >
